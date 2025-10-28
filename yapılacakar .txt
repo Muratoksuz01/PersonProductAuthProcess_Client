@@ -1,0 +1,12 @@
+sayfa loginden baslayacak 
+kayıt ol vs olacak  bunalr cpt den alınır 
+
+dashboard da liste ve detail sayası  geldiginde nasıl bir gourntu bunları yaz 
+kişi ve urunler icin boyle 
+sonra bunun backend baglandıtıs olacak token vs gelecek 
+sonra sql tarafı tasarlanacak  örnek veriler girilecek 
+
+listeleme ve detail sayfaalrı olur 
+
+
+ kullanıcın ad soyad id telefon no profil admin icin bir kod 
