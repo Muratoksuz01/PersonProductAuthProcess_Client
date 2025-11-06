@@ -1,56 +1,49 @@
 import type z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpUserShemaForm } from "@/Models/User";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import resim from "@/assets/NO_USER.png";
 import { Badge } from "@/components/ui/badge"
 import { useDispatch, useSelector } from 'react-redux'
 import { registerUser } from '@/features/auth/authActions'
-import { useNavigate } from "react-router-dom";
-import type { RootState ,AppDispatch} from "@/app/store";
+import { Link, useNavigate } from "react-router-dom";
+import type { RootState, AppDispatch } from "@/app/store";
+import {TextInput} from "@/components/TextInput";
+import FileInput from "@/components/FileInput";
+import CustomForms from "@/components/CustomForms";
+import { myRegex } from "@/lib/myRegex";
 
 function SignUpPage() {
-  
-const counter  =
-  useSelector((state: RootState) => state.auth);
-    const navigate = useNavigate()
-
-    const dispatch = useDispatch<AppDispatch>()  
- useEffect(() => {
-    // redirect user to login page if registration was successful
-    if (counter.success) navigate('/login')
-    // redirect authenticated user to profile screen
-    if (counter.userInfo) navigate('/user-profile')
-  }, [navigate, counter.userInfo, counter.success])
-
-    
-    const form = useForm<z.infer<typeof signUpUserShemaForm>>({
-      resolver: zodResolver(signUpUserShemaForm),
-      defaultValues: {
-        gsmNumber: "",
-        name: "",
-        surname: "",
-        password: "",
-        userPhotoUrl: undefined,
-      },
-    });
-  const handleSubmit = () => {
-    let data=form.getValues()
+  const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>()
+  const form = useForm<z.infer<typeof signUpUserShemaForm>>({
+    resolver: zodResolver(signUpUserShemaForm),
+    defaultValues: {
+      gsmNumber: "",
+      name: "",
+      surname: "",
+      password: "",
+      profileImg: undefined,
+    },
+  });
+  const handleSubmit = async() => {
+    let data = form.getValues()
     console.log("sign up form:", data);
+    console.log("sign up form typr",typeof data);
     // axiosInstance.post(API_PATH.register, data);
-        dispatch(registerUser(data))
+    await dispatch(registerUser(data))
+    navigate("/login")
 
   };
 
-const ref = useRef<HTMLInputElement>(null);
+  const ref = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState(resim);
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-300">
+    <div className="flex items-center justify-center min-h-screen bg-linear-to-tr from-blue-100 to-blue-300">
       <Card className="w-full max-w-lg bg-white shadow-2xl rounded-2xl">
         <CardHeader>
           <CardTitle className="text-center text-2xl font-semibold text-blue-700">
@@ -65,74 +58,43 @@ const ref = useRef<HTMLInputElement>(null);
               className="space-y-6"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FormField
-                  name="name"
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Ad</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Adınızı girin" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
 
-                <FormField
-                  name="surname"
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Soyad</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Soyadınızı girin" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                <CustomForms control={form.control} name="name" title="Ad">
+                  {(field: any) => (
+                    <TextInput placeholder="Adınızı girin"
+                      value={field.value}
+                      onchange={field.onChange} />
                   )}
-                />
+                </CustomForms>
+
+                <CustomForms control={form.control} name="surname" title="Soyad">
+                  {(field: any) => (
+                    <TextInput placeholder="Soyadınızı girin"
+                      value={field.value}
+                      onchange={field.onChange} />
+                  )}
+                </CustomForms>
               </div>
-
-              <FormField
-                name="gsmNumber"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Telefon</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="5XXXXXXXXX"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+              <CustomForms control={form.control} name="gsmNumber" title="Telefon">
+                {(field: any) => (
+                  <TextInput placeholder="5XXXXXXXXX"
+                  kisitlama={myRegex.telefon}
+                    value={field.value}
+                    onchange={field.onChange} />
                 )}
-              />
+              </CustomForms>
 
-              <FormField
-                name="password"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Şifre</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="********"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+              <CustomForms control={form.control} name="password" title="Şifre">
+                {(field: any) => (
+                  <TextInput placeholder="********" type="password"
+                    value={field.value}
+                    kisitlama={myRegex.sifre}
+                    onchange={field.onChange} />
                 )}
-              />
-
-              <Controller
-                name="userPhotoUrl"
-                control={form.control}
-                render={({ field }) => (
+              </CustomForms>
+           
+              <CustomForms control={form.control} name="profileImg" title="Kullanıcı resmi">
+                {(field: any) => (
                   <div className="flex flex-col items-center gap-3">
                     <div className="relative w-24 h-24">
                       <img
@@ -140,33 +102,19 @@ const ref = useRef<HTMLInputElement>(null);
                         alt="Kullanıcı Fotoğrafı"
                         className="w-24 h-24 rounded-full object-cover border border-gray-300 shadow"
                       />
-                      {imagePreview != resim && 
-                      <Badge
-                        onClick={() => {
-                          ref.current!.value = ""
-                          setImagePreview(resim)
-                        }}
-                        className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center rounded-full bg-red-500 text-white cursor-pointer"
-                      >
-                        X
-                      </Badge>}
+                      {imagePreview != resim &&
+                        <Badge
+                          onClick={() => {
+                            ref.current!.value = ""
+                            setImagePreview(resim)
+                          }}
+                          className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center rounded-full bg-red-500 text-white cursor-pointer"
+                        >
+                          X
+                        </Badge>}
 
                     </div>
-
-                    <Input
-                      type="file"
-                      ref={ref}
-                      className="hidden"
-                      accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          field.onChange(file);
-                          setImagePreview(URL.createObjectURL(file));
-                        }
-                      }}
-                    />
-
+                    <FileInput ref={ref} onchange={field.onChange} setImagePreview={setImagePreview} className="hidden" />
                     <Button
                       type="button"
                       onClick={() => ref.current?.click()}
@@ -177,7 +125,14 @@ const ref = useRef<HTMLInputElement>(null);
                   </div>
 
                 )}
-              />
+              </CustomForms>
+              <CustomForms control={form.control} name="adminPassword" title="Yonetici sifresi">
+                {(field: any) => (
+                  <TextInput placeholder="yetki sifresi"
+                    value={field.value}
+                    onchange={field.onChange} />
+                )}
+              </CustomForms>
 
               <Button
                 type="submit"
@@ -187,6 +142,7 @@ const ref = useRef<HTMLInputElement>(null);
               </Button>
             </form>
           </Form>
+          <Link to="/login" className="text-blue-400  underline">hesabım var</Link>
         </CardContent>
       </Card>
     </div>
