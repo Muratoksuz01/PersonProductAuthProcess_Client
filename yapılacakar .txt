@@ -1,68 +1,9 @@
-projede iki kişi olacak birisi admin herseye yetkisi var birde normal user admin bu kişlere edit delete yatkisi verebilir
-yada alabilir yetkisi alınan user o endpointlere erişim yapamaz 
-backend de Person,Product,User controlleri var 
-PersonControllera sadece admin girebilecek
-ProductControllere herkes login olan herkes girebilir ama yetkisi varsa update delete erisebileck 
-namespace ReactApp1.Server.Models {
-    public class Person
-    {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string surname { get; set; }
-        public string number { get; set; }
-        public string profileImg { get; set; }
-        public string password { get; set; }
-        public ICollection<Permission> Permissions { get; set; }
-        public Boolean isAdmin { get; set; }
-    }
-}
-namespace ReactApp1.Server.Models{
-    public class Permission
-    {
-        public int id { get; set; }
-        public string name { get; set; }
-        public int PersonId { get; set; }
-        public Person Person { get; set; }
-    }
-}
-namespace ReactApp1.Server.Models{
-    public class Product
-    {
-        public int id { get; set; }
-        public string name { get; set; }
-        public decimal price { get; set; }
-        public decimal barkod { get; set; }
-        public string imageUrl { get; set; }
-    }
-}
-backend te auth icin microsoft Idendify kullanıyorum 
 
 
 frontent:
-- regexler yenilenmeli                                                                              tamam   
-- tasarım guncellenmeli                                                                             tamam
-- login old hememn iceri giremiyoreum bekliyoe app.tsx tetiklwnmiyor hemen                          tamam
-- product cok olursa sidebar asagı kayııyor                                                         tamam
-- kayot sonrası bizi yonlendirmesi gerek                                                            tamam
-- suan asostan sonra navigate yapayı denem olmassa contexte gec                                     redux ile cozdum  
 - noAuth sayfsı ya                                                                                  gecersin sayfada tamam ama yetkisiz sayfada kontrol yok 
-- person edit product edit ve detail sayfaalrıı yap                                                 tamam
-- create product da mediaType tipi hatası var gonderemiyoum                                         tamam
-- signout işlemi sıkıntı sidebarda window.reload olmamalı                                           tamam
-- responsive olmalı product icin 
-
 
 backendt:
-- login user bilgileri pass haric ve isAdmin true gibi olacak                                      tamam
-- databse hemen ayarlanmalı                                                                        tamam
-- kişi ve product tablosu                                                                          tamam
-- izinler tablosu                                                                                 tamam
-- auth işlemleri erişememeli                                                                        tamam
-- https://localhost:7000/uploads/category.png resim bu sekilde gitmeli kullanıcıya              tamam
-- kayıt olan aynı biliyel kayıt olmamalı                                                        tamam
-- auth işlemi olarak isadmin kontolu yap yeterli                                                    tamma
-- product controller da [Authiase ] kullanamıyroum frontent hata veriyor                            tamam
-- service ve interace olacak ,userDTO                                                               tamam
 - no auth oldugunda forbidden gondermesin 403 gondeiyor hata oluyor Ok gonder   adminattribute de 
 
 

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import axios from "axios"
 import { API_PATH } from "@/Request/API_PATH"
 import type { Product } from "@/Models/Product"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -23,7 +22,6 @@ export default function DetailProduct() {
       setLoading(false)
     }
   }
-
   useEffect(() => {
     fetchProductById()
   }, [id])
@@ -34,45 +32,45 @@ export default function DetailProduct() {
 
   return (
     <div className="mx-auto p-6">
-  <Card>
-    <CardHeader>
-      <CardTitle className="text-center text-2xl font-bold">{product.name}</CardTitle>
-    </CardHeader>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-center text-2xl font-bold">{product.name}</CardTitle>
+        </CardHeader>
 
-    <CardContent className="flex flex-col md:flex-row items-center md:justify-center gap-6">
-      {/* Görsel */}
-      <div className="flex justify-center md:justify-end w-full md:w-1/2">
-        <img
-          src={product.imageUrl}
-          alt={product.name}
-          className="rounded-lg w-full max-w-sm h-auto shadow-lg object-cover"
-        />
-      </div>
+        <CardContent className="flex flex-col md:flex-row items-center md:justify-center gap-6">
+          {/* Görsel */}
+          <div className="flex justify-center md:justify-end w-full md:w-1/2">
+            <img
+              src={product.imageUrl}
+              alt={product.name}
+              className="rounded-lg w-full max-w-sm h-auto shadow-lg object-cover"
+            />
+          </div>
 
-      {/* Bilgiler */}
-      <div className="w-full md:w-1/2 flex justify-center">
-        <div className="flex flex-col justify-center h-full gap-6 text-lg font-semibold">
-          <div>
-            <h3 className="text-muted-foreground text-sm">Ürün ID</h3>
-            <p className="text-primary text-xl">{product.id}</p>
+          {/* Bilgiler */}
+          <div className="w-full md:w-1/2 flex justify-center">
+            <div className="flex flex-col justify-center h-full gap-6 text-lg font-semibold">
+              <div>
+                <h3 className="text-muted-foreground text-sm">Ürün ID</h3>
+                <p className="text-primary text-xl">{product.id}</p>
+              </div>
+              <div>
+                <h3 className="text-muted-foreground text-sm">Ürün İsmi</h3>
+                <p className="text-primary text-xl">{product.name}</p>
+              </div>
+              <div>
+                <h3 className="text-muted-foreground text-sm">Fiyat</h3>
+                <p className="text-primary text-xl">{product.price} TL</p>
+              </div>
+              <div>
+                <h3 className="text-muted-foreground text-sm">Barkod</h3>
+                <p className="text-primary text-xl">{product.barkod}</p>
+              </div>
+            </div>
           </div>
-          <div>
-            <h3 className="text-muted-foreground text-sm">Ürün İsmi</h3>
-            <p className="text-primary text-xl">{product.name}</p>
-          </div>
-          <div>
-            <h3 className="text-muted-foreground text-sm">Fiyat</h3>
-            <p className="text-primary text-xl">{product.price} TL</p>
-          </div>
-          <div>
-            <h3 className="text-muted-foreground text-sm">Barkod</h3>
-            <p className="text-primary text-xl">{product.barkod}</p>
-          </div>
-        </div>
-      </div>
-    </CardContent>
-  </Card>
-</div>
+        </CardContent>
+      </Card>
+    </div>
 
   )
 }

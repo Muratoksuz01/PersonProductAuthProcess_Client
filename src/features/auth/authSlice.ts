@@ -2,26 +2,25 @@ import { createSlice } from '@reduxjs/toolkit'
 import { registerUser ,userLogin ,getCurrentUser,logout} from "./authActions"
 
 interface UserInfo {
-  id: string; // or number, based on your API
+  id: string; 
   name: string;
   surname: string;
   number: string;
   profileImg: string;
   isAdmin: boolean;
-  // Add any other properties from your user object
 }
 interface AuthState {
   loading: boolean;
-  userInfo: UserInfo | null; // This tells TypeScript it's either a UserInfo object OR null
+  userInfo: UserInfo | null; 
   userToken: string | null;
   error: string | null;
   success: boolean;
 }
 const initialState: AuthState = {
     loading: false,
-    userInfo: null, // ✅ Correct: The initial VALUE is null, but the TYPE is UserInfo | null
+    userInfo: null,
     userToken: null,
-    error: null, // It's better to initialize string errors as null for easier checks
+    error: null, 
     success: false,
 };
 
@@ -34,11 +33,11 @@ const authSlice = createSlice({
             .addCase(registerUser.pending, state => {
                 state.loading = true
             })
-            .addCase(registerUser.fulfilled, (state, { payload }) => {
+            .addCase(registerUser.fulfilled, (state, ) => {
                 state.loading = false
                 state.success = true
             })
-            .addCase(registerUser.rejected, (state, { payload  }) => {
+            .addCase(registerUser.rejected, (state,{payload} ) => {
                 state.loading = false
             })
 
@@ -52,7 +51,7 @@ const authSlice = createSlice({
                 state.userToken = payload.token
                 
             })
-            .addCase(userLogin.rejected, (state, { payload  }) => {
+            .addCase(userLogin.rejected, (state, ) => {
                 state.loading = false
             })
             .addCase(getCurrentUser.pending, state => {
@@ -64,7 +63,7 @@ const authSlice = createSlice({
                 state.userInfo= payload.data.user
                 state.userToken=payload.data.token
             })
-            .addCase(getCurrentUser.rejected, (state, { payload  }) => {
+            .addCase(getCurrentUser.rejected, (state, ) => {
                 state.loading = false
                 state.userInfo=null
                 state.userToken=null

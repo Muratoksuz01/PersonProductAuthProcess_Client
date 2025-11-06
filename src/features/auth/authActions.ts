@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import type { loginUserShemaForm, signUpUserShemaForm } from '@/Models/User'
+import type { loginUserShemaForm, ServiceResponse, signUpUserShemaForm } from '@/Models/User'
 import type z from 'zod'
 import { axiosInstance } from '@/Request/axiosInstance'
 import { API_PATH } from '@/Request/API_PATH'
@@ -17,13 +17,16 @@ export const registerUser = createAsyncThunk(
           'Content-Type': 'multipart/form-data'
         },
       }
-      const res = await axios.post(
+      const res = await axios.post<ServiceResponse>(
         API_PATH.signup,
         formData,
         config
       )
       if (res.data.success == true) {
         toast.success("Kayıt Başarılı! Giriş Yapabilirsiniz.", { style: toastSuccessStyle })
+      }else{
+        toast.success(res.data.message || "kayıt olurken hata alındı ", { style:  toastDestructiveStyle})
+        return rejectWithValue(res.data.message)
       }
     } catch (error: any) {
       // return custom error message from backend if present
@@ -55,7 +58,7 @@ export const userLogin = createAsyncThunk(
       console.log("glen data", data)
       if (!data.success) {
         toast.error(data.message, { style: toastDestructiveStyle })
-        return data.data
+        return rejectWithValue(data.message)
       }
      
       toast.success("Giriş Başarılı", { style: toastSuccessStyle })
@@ -79,6 +82,8 @@ export const getCurrentUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       let token = localStorage.getItem("userToken");
+      if(!token)
+        return rejectWithValue("token yok")
       const res = await axios.post(
         API_PATH.getCurrentUser,
         {}, // body boş
@@ -87,7 +92,7 @@ export const getCurrentUser = createAsyncThunk(
         }
 
       );
-      if (res.data.success == true) {
+      if (res.data.success) {
         return res.data
       }
     } catch (error: any) {
@@ -102,6 +107,5 @@ export const getCurrentUser = createAsyncThunk(
 )
 export const logout = createAsyncThunk('auth/logout', async () => {
   localStorage.clear()
-
 }
 )

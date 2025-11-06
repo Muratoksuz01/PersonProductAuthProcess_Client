@@ -6,42 +6,31 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { myRegex } from "@/lib/myRegex";
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { userLogin } from '../features/auth/authActions'
-import type { RootState, AppDispatch } from "@/app/store";
+import type { AppDispatch } from "@/app/store";
 import {TextInput} from "@/components/TextInput";
 import CustomForms from "@/components/CustomForms";
-import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "sonner";
-import { toastDestructiveStyle ,toastSuccessStyle} from "@/lib/ToastStyles";
 
 
 
 function LoginPage() {
-    const { success, error, loading } = useSelector((state: RootState) => state.auth)
-    useEffect(() => {
-        console.log("degisşti ",success,error,loading)
-    }, [success, error, loading])
+    
+   
     const dispatch = useDispatch<AppDispatch>()
     const navigate = useNavigate();
-
     const handleSubmit = async () => {
         let data = form.getValues()
         console.log("login formu:", data)
         dispatch(userLogin(data)).then(res=>{
-            localStorage.setItem("userToken",res.payload.token)
-            navigate("/dashboard")
+            console.log(res)
+            if(res.type!="auth/login/rejected"){
+                localStorage.setItem("userToken",res.payload.token)
+                navigate("/dashboard")
+            }
         })
-
     };
-    //     useEffect(() => {
-    //         console.log("login.tsx useefeet calişti")
-    //   if (success) {
-    //     navigate("/dashboard")
-    //   }
-    // }, [success, navigate])
-
     const form = useForm<z.infer<typeof loginUserShemaForm>>({
         resolver: zodResolver(loginUserShemaForm),
         defaultValues: {

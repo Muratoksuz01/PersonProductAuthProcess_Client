@@ -20,9 +20,9 @@ const serviceResponse = z.object({
 export type ServiceResponse = z.infer<typeof serviceResponse>
 export const signUpUserShemaForm = z.object({
     id: z.number().optional(),
-    name: z.string(),
-    surname: z.string(),
-    password: z.string(),
+    name: z.string().nonempty("isim bos olamaz "),
+    surname: z.string().nonempty("soyisim bos olamaz "),
+    password: z.string().nonempty("sifre bos olamaz "),
     gsmNumber: z.string().min(10, "en az 10 karakter olmalı").max(10, "en fazla 10 karakter olmalı").startsWith("5", "telefon numarası 5 ile baslamalı "),
     profileImg: z.file().optional(),
     adminPassword: z.string().optional(),

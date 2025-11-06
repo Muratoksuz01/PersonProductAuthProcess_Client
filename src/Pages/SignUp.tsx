@@ -4,14 +4,14 @@ import { signUpUserShemaForm } from "@/Models/User";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import resim from "@/assets/NO_USER.png";
 import { Badge } from "@/components/ui/badge"
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { registerUser } from '@/features/auth/authActions'
 import { Link, useNavigate } from "react-router-dom";
-import type { RootState, AppDispatch } from "@/app/store";
+import type { AppDispatch } from "@/app/store";
 import {TextInput} from "@/components/TextInput";
 import FileInput from "@/components/FileInput";
 import CustomForms from "@/components/CustomForms";
@@ -35,8 +35,14 @@ function SignUpPage() {
     console.log("sign up form:", data);
     console.log("sign up form typr",typeof data);
     // axiosInstance.post(API_PATH.register, data);
-    await dispatch(registerUser(data))
-    navigate("/login")
+    await dispatch(registerUser(data)).then(res=>{
+      console.log("dogru alan:",res)
+      if(res.type!="auth/register/rejected")
+          navigate("/login")
+    }).catch(e=>{
+      console.log("hata alan:",e)
+    })
+    
 
   };
 

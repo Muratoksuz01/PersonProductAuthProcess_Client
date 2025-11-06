@@ -5,8 +5,7 @@ import { Spinner } from "@/components/ui/spinner"
 import { Error } from "@/components/Error"
 import { axiosInstance } from "@/Request/axiosInstance"
 import { API_PATH } from "@/Request/API_PATH"
-import { string } from "zod"
-import type { ServiceResponse, User } from "@/Models/User"
+import type { User } from "@/Models/User"
 
 
 
@@ -24,7 +23,6 @@ export default function PersonDetail() {
       console.log(res.data)
       if (res.data.data) {
         setPerson(res.data.data)
-
       }
     } catch (err) {
       setError("Kişi bilgileri alınamadı")
@@ -49,21 +47,10 @@ export default function PersonDetail() {
   if (error) {
     return <Error message={error} />
   }
-
   if (!person) {
     return <div>Kişi bulunamadı</div>
   }
-  /**
-   * {
-      "id": 8,
-      "name": "murat",
-      "surname": "öksüz",
-      "number": "5555555554",
-      "profileImg": "https://localhost:7000/uploads/bcba5550-f584-4f3b-aa36-b047cac4a265.png",
-      "password": "55555",
-      "isAdmin": false
-  }
-   */
+
   return (
     <div className="p-6">
       <Card>
@@ -72,7 +59,7 @@ export default function PersonDetail() {
         </CardHeader>
         <CardContent className="flex flex-col md:flex-row items-center md:items-start gap-6">
           <div className="flex flex-col justify-center md:justify-start w-full md:w-1/2">
-              <p className="text-xl">Profil resminiz </p>
+            <p className="text-xl">Profil resminiz </p>
             <img
               src={person.profileImg}
               alt={person.name}

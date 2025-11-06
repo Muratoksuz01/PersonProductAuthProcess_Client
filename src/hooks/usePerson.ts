@@ -1,9 +1,7 @@
 // src/hooks/useProducts.ts
-import type { Product } from "@/Models/Product";
-import type { ServiceResponse, User } from "@/Models/User";
+import type { User } from "@/Models/User";
 import { API_PATH } from "@/Request/API_PATH";
 import { axiosInstance } from "@/Request/axiosInstance";
-import axios from "axios";
 import { useState } from "react";
 
 

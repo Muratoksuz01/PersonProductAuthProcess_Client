@@ -25,7 +25,6 @@ import { DrawerCreateDialog } from "@/components/CreateDrawer"
 
 function DashBoard() {
   const navigate = useNavigate();
-  // const counter = useSelector((state: RootState) => state.auth) //   burada user gelen beriler var 
   const [product, setProduct] = useState<Product>({} as Product)
   const { products, loading, error, getProducts } = useProducts()
   const [openDrawer, setOpenDrawer] = useState<boolean>(false) // edit icin 
@@ -58,7 +57,6 @@ function DashBoard() {
       <Card className="shadow-sm">
         <CardContent>
           <div className="flex justify-end">
-
             <Button className=" mr-10  bg-green-700 " 
             onClick={()=>{
               setOpenCreateDrawer(true)}}
@@ -86,7 +84,7 @@ function DashBoard() {
               <TableBody>
                 {products?.map((p) => (
                   <TableRow key={p.id}>
-                    <TableCell className="flex gap-2 justify-center hidden md:block">
+                    <TableCell className=" gap-2 justify-center hidden md:flex">
                       <Button
                         variant="outline"
                         size="sm"

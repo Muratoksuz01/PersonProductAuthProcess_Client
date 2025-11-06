@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // shadcn/ui components (assumes your project has these exports)
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,13 +7,11 @@ import { Button } from "@/components/ui/button";
 export default function NoAuth() {
   const [sec, setSec] = useState(5);
   const navigate = useNavigate();
-
   useEffect(() => {
     if (sec <= 0) {
       navigate("/login");
       return;
     }
-
     const t = setTimeout(() => setSec((s) => s - 1), 1000);
     return () => clearTimeout(t);
   }, [sec, navigate]);

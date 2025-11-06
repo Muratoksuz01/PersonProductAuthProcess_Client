@@ -14,10 +14,9 @@ import { TextInput } from "./TextInput"
 import { useEffect, useState } from "react"
 import { axiosInstance } from "@/Request/axiosInstance"
 import { API_PATH } from "@/Request/API_PATH"
-import { NumberInput } from "./NumberInput"
 import { toast } from "sonner"
 import { toastSuccessStyle } from "@/lib/ToastStyles"
-import { editPersonShemaForm, userShema, type User } from "@/Models/User"
+import { editPersonShemaForm, type User } from "@/Models/User"
 import { CheckBoxInput } from "./CheckBoxInput"
 interface Gelenler {
     person: User,
@@ -72,7 +71,7 @@ export function PersonEditDrawer({ person, openDrawer, getPersons, setOpenDrawer
     return (
         <Dialog open={openDrawer} onOpenChange={(state) => {
             setOpenDrawer(state)
-            // form.reset()
+            
 
         }}>
 
@@ -93,7 +92,25 @@ export function PersonEditDrawer({ person, openDrawer, getPersons, setOpenDrawer
                                         onchange={field.onChange} />
                                 )}
                             </CustomForms>
-                            {/* <CustomForms control={form.control} name="name" title="İsmi">
+                            <CustomForms control={form.control} name="isAdmin" title="Yetkisi">
+                                {(field: any) => (
+                                    <CheckBoxInput
+                                        value={field.value}
+                                        onchange={field.onChange} />
+                                )}
+                            </CustomForms>
+                           <Button type="submit" > update</Button>
+                        </form>
+                    </Form>
+                    <p className="text-red-900">{error}</p>
+                </DialogHeader>
+            </DialogContent>
+        </Dialog>
+    )
+
+}
+
+ {/* <CustomForms control={form.control} name="name" title="İsmi">
                                 {(field: any) => (
                                     <TextInput placeholder="Uurn İsmi"
                                         //  kisitlama={myRegex.telefon}
@@ -117,23 +134,3 @@ export function PersonEditDrawer({ person, openDrawer, getPersons, setOpenDrawer
                                         onchange={field.onChange} />
                                 )}
                             </CustomForms> */}
-                            <CustomForms control={form.control} name="isAdmin" title="Yetkisi">
-                                {(field: any) => (
-                                    <CheckBoxInput
-                                        //  kisitlama={myRegex.telefon}
-                                        value={field.value}
-                                        onchange={field.onChange} />
-                                )}
-                            </CustomForms>
-                          
-                           
-                            <Button type="submit" > update</Button>
-                        </form>
-                    </Form>
-                    <p className="text-red-900">{error}</p>
-                </DialogHeader>
-            </DialogContent>
-        </Dialog>
-    )
-
-}

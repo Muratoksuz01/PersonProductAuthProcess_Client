@@ -33,7 +33,6 @@ export default function Person() {
 
 
   const navigate = useNavigate();
-
   useEffect(() => {
     getPersons();
   }, []);
@@ -56,16 +55,17 @@ export default function Person() {
     <div className="p-6">
       <Card>
         <CardHeader>
-          <CardTitle>Kişiler</CardTitle>
+          <CardTitle className="text-center">Kişiler</CardTitle>
         </CardHeader>
         <CardContent>
+          <p>{error}</p>
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Sıra</TableHead>
-                <TableHead className="w-[120px] text-center">İşlem</TableHead>
+                <TableHead className="w-[120px] text-center hidden md:block">İşlem</TableHead>
                 <TableHead>kişi Adı</TableHead>
-                <TableHead>yetkili mi?</TableHead>
+                <TableHead className="hidden md:block">yetkili mi?</TableHead>
                 <TableHead>Resim</TableHead>
               </TableRow>
             </TableHeader>
@@ -79,13 +79,12 @@ export default function Person() {
               </TableBody>
             ) : (
               <TableBody>
-                {persons?.map((p,index) => {
-                  if (p.id != Number(counter.userInfo?.id))
+                {persons.filter(a=>a.id != Number(counter.userInfo?.id))?.map((p,index) => {
                     return (
 
                       <TableRow key={p.id}>
-                        <TableCell >{index}</TableCell>
-                        <TableCell className="flex gap-2 justify-center">
+                        <TableCell >{index+1}</TableCell>
+                        <TableCell className=" gap-2  hidden md:flex">
                           <Button
                             variant="outline"
                             size="sm"
@@ -115,8 +114,8 @@ export default function Person() {
                             <Info size={16} />
                           </Button>
                         </TableCell>
-                        <TableCell >{p.name}</TableCell>
-                        <TableCell >{p.isAdmin ? "Evet":"Hayır"}</TableCell>
+                        <TableCell className="max-w-2 truncate" >{p.name}</TableCell>
+                        <TableCell className="hidden md:block">{p.isAdmin ? "Evet":"Hayır"}</TableCell>
                         <TableCell>
                           <img
                             src={p.profileImg}

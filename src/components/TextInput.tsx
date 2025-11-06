@@ -7,11 +7,13 @@ interface IProps {
     onchange?: any
     kisitlama?: any
     disabled?: any
+    inValid?:any
 
 }
-export function TextInput({ disabled, placeholder, type, value, className, onchange, kisitlama }: IProps) {
+export function TextInput({ disabled,inValid, placeholder, type, value, className, onchange, kisitlama }: IProps) {
     return (
         <Input
+        aria-invalid={inValid}
             disabled={disabled}
             value={value}
             type={"text"}

@@ -6,14 +6,13 @@ import Dashboard from "@/Pages/DashBoard";
 import Person from "@/Pages/Person";
 import DetailProduct from './Pages/DetailProduct';
 import PersonDetail from './Pages/PersonDetail';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from './app/store';
 import NoAuth from './Pages/NoAuth';
 import { getCurrentUser } from './features/auth/authActions';
 
 function App() {
-  // const [isAuth, setIsAuth] = useState(false);
   const auth = useSelector((state: RootState) => state.auth)
   const dispatch = useDispatch<AppDispatch>()
   useEffect(() => {
@@ -41,7 +40,7 @@ function App() {
             </>
           }
         </Route>
-        <Route path="*" element={<NoAuth />} />
+        <Route path="/*"  element={<NoAuth />} />
       </Routes>
 
     </BrowserRouter>

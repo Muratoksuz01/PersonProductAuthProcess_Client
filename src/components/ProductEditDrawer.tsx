@@ -1,15 +1,10 @@
 "use client"
 
 import * as React from "react"
-import { cn } from "@/lib/utils"
 // import { useMediaQuery } from "@/hooks/use-media-query"
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
-import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger, } from "@/components/ui/drawer"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, } from "@/components/ui/dialog"
 import { editProductSchema, type Product } from "@/Models/Product"
-import { Separator } from "@radix-ui/react-separator"
 import { useForm } from "react-hook-form"
 import type z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -17,10 +12,9 @@ import { Form } from "./ui/form"
 import CustomForms from "./CustomForms"
 import { TextInput } from "./TextInput"
 import { myRegex } from "@/lib/myRegex"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { axiosInstance } from "@/Request/axiosInstance"
 import { API_PATH } from "@/Request/API_PATH"
-import { NumberInput } from "./NumberInput"
 import { toast } from "sonner"
 import { toastSuccessStyle } from "@/lib/ToastStyles"
 interface Gelenler {
@@ -40,11 +34,12 @@ export function ProductEditDrawer({ product, openDrawer, getProducts, setOpenDra
         resolver: zodResolver(editProductSchema),
         defaultValues: {
             name: "",
-            price: 0,
-            barkod: 0,
-            // imageUrl: "",
-            // imageFile: undefined,
+            price: "",
+            barkod: "",
+           
         },
+        mode: "onChange",
+
     });
     useEffect(() => {
         if (product.imageUrl) {
@@ -53,14 +48,19 @@ export function ProductEditDrawer({ product, openDrawer, getProducts, setOpenDra
         }
         form.reset({
             name: product.name,
-            price: product.price,
-            barkod: product.barkod,
-            //   imageUrl: product.imageUrl,
-            //  imageFile: undefined,
+            price: String(product.price),
+            barkod: String(product.barkod),
+          
         })
     }, [product])
 
-    const handleEdit = async () => {                                                                                                                 //doldur burayı 
+    const handleEdit = async () => {
+        editProductSchema.parseAsync(form.getValues()).then((value) => {
+            console.log(value)
+        }).catch(rej => {
+            console.log(rej)
+        })
+
         const data = form.getValues()
         console.log("gonderilen data:", data)
         // gelen datatyı direk gonder backendde kontrol edecegiz fiel varmı yokmu varsa kayıt yoksa aynen devam 
@@ -101,15 +101,16 @@ export function ProductEditDrawer({ product, openDrawer, getProducts, setOpenDra
                             <img
                                 src={selectedImage}
                                 alt="Preview"
-                                className="rounded-lg shadow-md w-full max-w-xs h-52 object-cover"
+                                className="rounded-lg shadow-md w-full max-w-xs h-52 object-contain"
                             />
                         </div>
 
                         {/* Sağ kısım - Inputlar */}
                         <div className="w-full md:w-1/2 space-y-6">
                             <CustomForms control={form.control} name="name" title="İsmi">
-                                {(field: any) => (
+                                {(field: any, fieldState: any) => (
                                     <TextInput
+                                        inValid={fieldState.invalid}
                                         placeholder="Ürün İsmi"
                                         value={field.value}
                                         onchange={field.onChange}
@@ -119,7 +120,8 @@ export function ProductEditDrawer({ product, openDrawer, getProducts, setOpenDra
 
                             <CustomForms control={form.control} name="price" title="Fiyatı">
                                 {(field: any) => (
-                                    <NumberInput
+                                    <TextInput
+                                        kisitlama={myRegex.fiyat}
                                         placeholder="Ürün Fiyatı"
                                         value={field.value}
                                         onchange={field.onChange}
@@ -129,7 +131,9 @@ export function ProductEditDrawer({ product, openDrawer, getProducts, setOpenDra
 
                             <CustomForms control={form.control} name="barkod" title="Barkod">
                                 {(field: any) => (
-                                    <NumberInput
+                                    <TextInput
+                                        kisitlama={myRegex.fiyat}
+
                                         placeholder="Ürün Barkod"
                                         value={field.value}
                                         onchange={field.onChange}
@@ -140,6 +144,7 @@ export function ProductEditDrawer({ product, openDrawer, getProducts, setOpenDra
                             <Button type="submit" className="w-full">Güncelle</Button>
                         </div>
                     </form>
+
                 </Form>
 
                 {error && <p className="text-red-900 text-center mt-4">{error}</p>}
