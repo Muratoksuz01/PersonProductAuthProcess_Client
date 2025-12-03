@@ -1,9 +1,4 @@
 
 
-frontent:
-- noAuth sayfsı ya                                                                                  gecersin sayfada tamam ama yetkisiz sayfada kontrol yok 
-
-backendt:
-- no auth oldugunda forbidden gondermesin 403 gondeiyor hata oluyor Ok gonder   adminattribute de 
 
 

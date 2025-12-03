@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/app/store";
 import { logout } from "@/features/auth/authActions";
+import { API_PATH } from "@/Request/API_PATH";
 
 export default function SideBar() {
   const dispatch = useDispatch<AppDispatch>()
@@ -16,7 +17,7 @@ export default function SideBar() {
       {/* Üst kısım */}
       <div className="flex flex-col items-center space-y-2">
         <img
-          src={counter.userInfo?.profileImg}
+          src={API_PATH.getImage(counter.userInfo?.profileImg || "")}
           alt="User"
           className="w-16 h-16 rounded-full object-cover"
         />

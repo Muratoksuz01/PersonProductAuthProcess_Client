@@ -22,6 +22,7 @@ import CustomDeleteAlertDialog from "@/components/CustomAlertDialog"
 import type { Product } from "@/Models/Product"
 import { ProductEditDrawer } from "@/components/ProductEditDrawer"
 import { DrawerCreateDialog } from "@/components/CreateDrawer"
+import axios from "axios"
 
 function DashBoard() {
   const navigate = useNavigate();
@@ -119,7 +120,7 @@ function DashBoard() {
                     <TableCell className="hidden md:block">{p.barkod}</TableCell>
                     <TableCell>
                       <img
-                        src={p.imageUrl}
+                        src={API_PATH.getImage(p.imageUrl)}
                         alt={p.name}
                         className="h-12 w-12 rounded-md object-cover border"
                       />

@@ -118,7 +118,7 @@ export default function Person() {
                         <TableCell className="hidden md:block">{p.isAdmin ? "Evet":"Hayır"}</TableCell>
                         <TableCell>
                           <img
-                            src={p.profileImg}
+                            src={API_PATH.getImage(p.profileImg)}
                             alt={p.name}
                             className="h-12 w-12 rounded-md object-cover border"
                           />

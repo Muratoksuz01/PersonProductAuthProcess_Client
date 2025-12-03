@@ -12,4 +12,5 @@ export const API_PATH={
     getPersonById:(id:string)=>BaseUrl+"/Person/person/"+id,
     editPerson:(id:string)=>BaseUrl+"/Person/person/"+id,
     deletePerson:(id:string)=>BaseUrl+"/Person/person/"+id,
+    getImage:(key:string)=>BaseUrl+"/"+key,
 }
